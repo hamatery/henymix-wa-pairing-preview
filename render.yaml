@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: henymix-wa-pairing-preview
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: unzip -oq henymix-wa-node-candidate.zip -d . && cd henymix-wa-node-candidate && npm ci --ignore-scripts --no-audit --no-fund
+    startCommand: cd henymix-wa-node-candidate && npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - fromGroup: henymix-wa-env
+      - key: SUPABASE_ANON_KEY
+        value: sb_publishable_0pWBbZd-S5UthaXCOzu4KA_YblfcNHG
+      - key: WEB_ORIGIN
+        value: https://henymix-app-preview.henrymwansa16.workers.dev
+      - key: ENABLE_PAIRING
+        value: "false"
+      - key: SESSION_ENCRYPTION_KEY
+        sync: false
